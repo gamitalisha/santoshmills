@@ -1,0 +1,45 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /santoshmills/
+# Handle Authorization Header
+RewriteCond %{HTTP:Authorization} ^(.+)$
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+RewriteRule ^(storage)/(.*)$ $1/$2 [L,NC]
+#Removes access to the system folder by users.
+#Additionally this will allow you to create a System.php controller,
+#previously this would not have been possible.
+#'system' can be replaced if you have renamed your system folder.
+RewriteCond %{REQUEST_URI} ^system.*
+RewriteRule ^(.*)$ /index.php/$1 [L]
+
+#Checks to see if the user is attempting to access a valid file,
+#such as an image or css document, if this isn't true it sends the
+#request to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(css|js|images|svg|fonts|app-assets)/(.*)$ public/$1/$2 [L,NC]
+#This last condition enables access to the images and css folders, and the robots.txt file
+#Submitted by Michael Radlmaier (mradlmaier)
+RewriteCond $1 !^(index\.php|images|robots\.txt)
+RewriteRule ^(.*)$ index.php/$1 [L]
+</IfModule>
+
+<IfModule !mod_rewrite.c>
+# If we don't have mod_rewrite installed, all 404's
+# can be sent to index.php, and everything works as normal.
+# Submitted by: ElliotHaughin
+
+ErrorDocument 404 /index.php
+</IfModule>
+
+<IfModule mod_php5.c>
+php_value max_file_uploads 100M
+php_value max_execution_time 10000
+php_value upload_max_filesize 64M
+php_value post_max_size 64M
+php_value max_input_time 300
+</IfModule>
+
+
+
