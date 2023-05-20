@@ -156,10 +156,10 @@ Route::post('stentner_edit',[StentnerproductinController::class,'edit'])->name('
  });
 
 // //Purchase report
-Route::get('datewisw_purchase_report',[ReportController::class,'DateWisePurchaseReport'])->name('datewise.purchase.report');
-Route::controller(ReportController::class)->group(function(){
-    Route::get('export/csv', 'exportCSVFile')->name('export.csv');
-});
+// Route::get('datewisw_purchase_report',[ReportController::class,'DateWisePurchaseReport'])->name('datewise.purchase.report');
+// Route::controller(ReportController::class)->group(function(){
+//     Route::get('export/csv', 'exportCSVFile')->name('export.csv');
+// });
 
 // //GroupWise report
 // Route::get('group',[ReportController::class,'Group'])->name('group.index');
